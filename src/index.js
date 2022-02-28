@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Tasks from './tasks/tasks'
 import TaskDisplay from './tasks/taskdisplay'
+import NoTasks from './tasks/notasks';
 import MainContent from './mainContent/maincontent';
 
 ReactDOM.render(
@@ -16,7 +17,8 @@ ReactDOM.render(
     <Routes>
       <Route path='/' element={<App />}>
         <Route path='/' element={<MainContent />}>
-          <Route path="/tasks" element={<Tasks />} >
+          <Route path="/" element={<Tasks />} >
+            <Route path='/' element={<NoTasks />} />
             <Route path=':projectName' element={<TaskDisplay />} />
           </Route>
         </Route>

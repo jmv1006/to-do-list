@@ -19,11 +19,27 @@
     background-color: aliceblue;
 }
 
+.projectNameContainer {
+    border: 2px solid red;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.deleteProjectButton {
+    width: 40%;
+    height: auto;
+    text-align: center;
+}
+
 #taskContainer {
     width: 70%;
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: azure;
+    align-items: flex-start;
+    border: 2px solid black;
 }
