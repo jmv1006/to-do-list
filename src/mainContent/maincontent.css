@@ -1,0 +1,29 @@
+#mainContentContainer {
+    width: 100%;
+    height: 100%;
+    border: 2px solid blue;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#projectsDisplay {
+    width: 30%;
+    height: auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+#taskContainer {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: azure;
+}
