@@ -26,8 +26,21 @@ const TaskDisplay = () => {
         addProject([...editedArr])
     }
 
-    const todos = project.todos.map((task, index) => 
-        <div key={task.number}>{task.taskName}</div>
+    const deleteATask = (taskNumber) => {
+        let editedArr = projects;
+
+        let taskIndex = editedArr[projectIndex].todos.findIndex((task) => task.number === taskNumber);
+        editedArr[projectIndex].todos.splice(taskIndex, 1);
+        addProject([...editedArr]);
+    }
+
+
+
+    const todos = project.todos.map((task) => 
+        <div key={task.number} className="todo">
+            <div>{task.taskName}</div>
+            <button onClick={() => deleteATask(task.number)}>Delete Task</button>
+        </div>
     )
 
     return(
