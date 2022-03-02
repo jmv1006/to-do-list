@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
+import { getProjects } from "../firebase";
 import './tasks.css'
 
 const TaskDisplay = () => {
 
     const [projects, addProject] = useOutletContext();
     const [taskNumber, addTaskNumber] = useState(0);
+
+
+    useEffect(() => {
+        console.log('task display mounted')
+    }, [])
 
     let params = useParams();
     let projectIndex = projects.findIndex(item => item.name === (params.projectName))
@@ -28,9 +34,16 @@ const TaskDisplay = () => {
 
     const deleteATask = (taskNumber) => {
         let editedArr = projects;
-
         let taskIndex = editedArr[projectIndex].todos.findIndex((task) => task.number === taskNumber);
         editedArr[projectIndex].todos.splice(taskIndex, 1);
+        addProject([...editedArr]);
+    }
+
+    const editATask = (taskNumber) => {
+        let newTask = prompt('What is the updated name?');
+        let editedArr = projects;
+        let taskIndex = editedArr[projectIndex].todos.findIndex((task) => task.number === taskNumber);
+        editedArr[projectIndex].todos[taskIndex].taskName = newTask;
         addProject([...editedArr]);
     }
 
@@ -39,9 +52,12 @@ const TaskDisplay = () => {
     const todos = project.todos.map((task) => 
         <div key={task.number} className="todo">
             <div>{task.taskName}</div>
-            <button onClick={() => deleteATask(task.number)}>Delete Task</button>
+            <div id='buttonsContainer'>
+                <button onClick={() => deleteATask(task.number)}>Delete Task</button>
+                <button onClick={() => editATask(task.number)}>Edit Task</button>
+            </div>
         </div>
-    )
+    );
 
     return(
         <div id='taskDisplay'>

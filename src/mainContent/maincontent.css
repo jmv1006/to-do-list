@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
 #mainContentContainer {
     width: 100%;
     height: 100%;
-    border: 2px solid blue;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -16,11 +17,17 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: aliceblue;
+    background-color: #f0f0f0;
+    gap: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+#addProjectButton {
+    margin-top: 1rem;
+    cursor: pointer;
 }
 
 .projectNameContainer {
-    border: 2px solid red;
     display: flex;
     flex-direction: row;
     width: 80%;
@@ -30,9 +37,10 @@
 }
 
 .deleteProjectButton {
-    width: 40%;
+    width: 45%;
     height: auto;
     text-align: center;
+    cursor: pointer;
 }
 
 #taskContainer {

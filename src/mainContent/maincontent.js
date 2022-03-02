@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { addProjectToDB, db, getProjects, updateProjectInDB } from '../firebase';
-import { doc, updateDoc } from "firebase/firestore";
+import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { addProjectToDB, db, getProjects, deleteProjectFromDB } from '../firebase';
 import './maincontent.css'
-import { setDoc } from 'firebase/firestore/lite';
-
 
 
 const MainContent = () => {
@@ -17,7 +14,7 @@ const MainContent = () => {
 
         function processData(data) {
             const projectsArr = data;
-            const importedProjs = projectsArr.map(addProjects)
+            const importedProjs = projectsArr.map(addProjects);
             
             function addProjects(project) {
                 let importedProj = {
@@ -28,25 +25,27 @@ const MainContent = () => {
                 importProject(importedProj);
                 setProjectNumber(projectNumber + projectsArr.length)
             };   
-
         }
+
+        console.log('maincontent mounted')
     }, [])
 
     useEffect(() => {
         projects.forEach((project) => {
-            //updateProjectInDB(project);
+            addProjectToDB(project);
         })
-
-        console.log('changed')
-
     }, [projects])
 
-    
+
   
     const importProject = (proj) => {  
         let editedArr = projects;
         editedArr.push(proj);
         addProject([...editedArr]);
+        
+        if(projects.length >= 1) {
+            navigate(`${projects[0].name}`)
+        };
     }
 
     const addAProject = () => {
@@ -58,12 +57,13 @@ const MainContent = () => {
             number: projectNumber
         };
         addProject(projects.concat(newProject))
-        addProjectToDB(newProject);
+        navigate(`/${newProject.name}`)
     }
 
     const deleteAProject = (projectNumber) => {
         let projectIndex = projects.findIndex((project) => project.number === projectNumber)
         let editedArr = projects;
+        deleteProjectFromDB(projects[projectIndex]);
         editedArr.splice(projectIndex, 1)
         addProject([...editedArr]);
 
@@ -74,6 +74,7 @@ const MainContent = () => {
         } else {
             navigate('/')
         }
+
     }
 
 
@@ -91,7 +92,7 @@ const MainContent = () => {
     return(
         <div id='mainContentContainer'>
             <div id='projectsDisplay'>
-                <button onClick={addAProject}>Add project</button>
+                <button id='addProjectButton' onClick={addAProject}>Add project</button>
                 {projectsDisplay}
             </div>
             <Outlet context={[projects, addProject]}/>

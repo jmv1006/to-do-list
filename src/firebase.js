@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs, setDoc, addDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, setDoc, addDoc, doc, deleteDoc } from 'firebase/firestore/lite';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,29 +27,25 @@ async function getProjects(db) {
     const projects = await getDocs(projectsCol);
     const projectList = projects.docs.map(projectArr => projectArr.data())
     return projectList;
-}
+};
 
 async function addProjectToDB(project) {
   let name = project.name;
   let number = project.number;
   let todos = project.todos;
-  const docRef = await addDoc(collection(db, 'Projects'), {
-      obj: {
-        name,
-        number,
-        todos
-      }
+
+  await setDoc(doc(db, 'Projects', `${name}`), {
+    obj: {
+      name,
+      number,
+      todos
+    }
   });
 };
 
-async function updateProjectInDB(project) {
-  console.log(project)
-  /*
-    const projectsCol = collection(db, 'Projects');
-    const projects = await getDocs(projectsCol);
-    const projectList = projects.docs.map(projectArr => projectArr.data())
-    */
+async function deleteProjectFromDB(project) {
+  let name = project.name;
+  await deleteDoc(doc(db, 'Projects', `${name}`));
 }
 
-
-export {db, getProjects, addProjectToDB, updateProjectInDB};
+export {db, getProjects, addProjectToDB, deleteProjectFromDB };
